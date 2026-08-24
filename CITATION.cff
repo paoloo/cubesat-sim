@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software release and the dissertation."
+title: "CubeSec-Sim: an offline synthetic CubeSat communications simulation artifact"
+type: software
+version: 0.2.0
+date-released: 2026-08-24
+authors:
+  - family-names: Oliveira
+    given-names: "João Paolo Cavalcante Martins"
+license: MIT
+abstract: >-
+  Reproducible, fully offline simulation of synthetic AX.25 and bounded
+  CCSDS-inspired CubeSat links with paired receiver-policy evaluation.
+keywords:
+  - CubeSat
+  - simulation
+  - software-defined radio
+  - reproducibility
+  - space cybersecurity

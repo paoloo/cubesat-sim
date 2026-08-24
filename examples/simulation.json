@@ -1,0 +1,29 @@
+{
+  "channel": {
+    "burst_erasure_probability": 0.0,
+    "burst_length_samples": 0,
+    "cfo_cycles_per_sample": 0.0,
+    "clip_amplitude": null,
+    "doppler_cycles_per_sample": 0.0,
+    "gain_db": 0.0,
+    "phase_offset_rad": 0.0,
+    "impulse_probability": 0.0,
+    "impulse_scale": 5.0,
+    "multipath_taps": [[1.0, 0.0]],
+    "multipath_delay_samples": null,
+    "multipath_gain": 0.0,
+    "sample_clock_ppm": 0.0,
+    "snr_db": 8.0
+  },
+  "destination_callsign": "SIMGS",
+  "frames_per_run": 8,
+  "master_seed": 20260824,
+  "mission_id": "SIM-CUBE-01",
+  "pass_seconds": 12.0,
+  "payload_bytes": 48,
+  "protocol": "AX25_AFSK",
+  "repetitions": 30,
+  "sample_rate": 9600,
+  "source_callsign": "SIM001",
+  "symbol_rate": 1200
+}
