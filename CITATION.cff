@@ -8,6 +8,8 @@ authors:
   - family-names: Oliveira
     given-names: "João Paolo Cavalcante Martins"
 license: MIT
+repository-code: "https://github.com/paoloo/cubesat-sim"
+url: "https://github.com/paoloo/cubesat-sim/releases/tag/v0.2.0"
 abstract: >-
   Reproducible, fully offline simulation of synthetic AX.25 and bounded
   CCSDS-inspired CubeSat links with paired receiver-policy evaluation.

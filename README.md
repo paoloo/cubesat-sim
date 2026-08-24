@@ -1,5 +1,7 @@
 # CubeSec-Sim
 
+[![Release](https://img.shields.io/github/v/release/paoloo/cubesat-sim)](https://github.com/paoloo/cubesat-sim/releases/tag/v0.2.0)
+
 CubeSec-Sim is a fully offline, synthetic CubeSat communications and
 tool-orchestration simulator. It was built as a reproducible research artifact:
 it does not tune a radio, use orbital elements, contact a network endpoint, or
@@ -85,5 +87,6 @@ see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 ## Citation
 
-Use [`CITATION.cff`](CITATION.cff). Add the public repository URL and archival
-DOI to a tagged release when those identifiers are assigned.
+Use [`CITATION.cff`](CITATION.cff) and the tagged
+[`v0.2.0` release](https://github.com/paoloo/cubesat-sim/releases/tag/v0.2.0).
+An archival DOI will be added to the citation metadata if one is assigned.
