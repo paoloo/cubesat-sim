@@ -1,6 +1,6 @@
-# CubeSec-Sim
+# CubeSec-Sim 1.0.0
 
-[![Release](https://img.shields.io/github/v/release/paoloo/cubesat-sim)](https://github.com/paoloo/cubesat-sim/releases/tag/v0.2.0)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/paoloo/cubesat-sim)
 
 CubeSec-Sim is a fully offline, synthetic CubeSat communications and
 tool-orchestration simulator. It was built as a reproducible research artifact:
@@ -8,7 +8,7 @@ it does not tune a radio, transmit RF, control a physical rotor, or contact an
 operational spacecraft. Verification is offline; only the optional fixture
 acquisition command performs read-only access to the public SatNOGS archive.
 
-Version 1.0 evolves the original link study into an integrated 3U Software-in-
+Version 1.0.0 evolves the original link study into an integrated 3U Software-in-
 the-Loop mission model. Seven end-to-end scenarios share the same spacecraft
 state: TLE visibility, Space Packets, stateful counters, protected telemetry,
 antenna tracking, a local dashboard security lab, and passive AFSK1200 capture
@@ -131,6 +131,9 @@ see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 ## Citation
 
-Use [`CITATION.cff`](CITATION.cff) and the tagged
-[`v0.2.0` release](https://github.com/paoloo/cubesat-sim/releases/tag/v0.2.0).
-An archival DOI will be added to the citation metadata if one is assigned.
+The current integrated simulator version is `1.0.0`. Until its archival release
+is published, cite the repository version and commit used in the experiment.
+
+For the frozen dissertation artifact, use [`CITATION.cff`](CITATION.cff) and the
+tagged [`v0.2.0` release](https://github.com/paoloo/cubesat-sim/releases/tag/v0.2.0).
+That historical tag and its release assets remain unchanged.
