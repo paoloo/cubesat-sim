@@ -11,6 +11,10 @@ from .campaign import load_records, run_campaign, summarize
 from .config import SimulationConfig
 from .quality import evaluate_quality
 from .report import export_report
+from .integrated.runner import verify
+from .integrated.scenarios import SCENARIOS
+from .integrated.satnogs import fetch_observation
+from .integrated.radio import generate_synthetic_fixture
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -46,6 +50,28 @@ def build_parser() -> argparse.ArgumentParser:
         "quality", help="apply preregistered integrity and control gates"
     )
     quality.add_argument("directory", type=Path)
+    verify_parser = sub.add_parser(
+        "verify", help="run the integrated seven-scenario CubeSat laboratory"
+    )
+    verify_parser.add_argument("--output", type=Path, required=True)
+    verify_parser.add_argument(
+        "--suite", choices=("all", *SCENARIOS.keys()), default="all"
+    )
+    verify_parser.add_argument("--seed", type=int, default=20260826)
+    verify_parser.add_argument("--wall-clock", action="store_true")
+    verify_parser.add_argument(
+        "--afsk-wav", type=Path, help="optional passive mono 16-bit PCM fixture"
+    )
+    verify_parser.add_argument(
+        "--afsk-capture", type=Path, help="passive WAV/OGG or fetched SatNOGS fixture directory"
+    )
+    fixtures = sub.add_parser("fixtures", help="acquire auditable public fixtures")
+    fixtures.add_argument("action", choices=("fetch-satnogs", "generate-afsk"))
+    fixtures.add_argument("observation_id", type=int, nargs="?")
+    fixtures.add_argument("--output", type=Path, required=True)
+    fixtures.add_argument("--payload", default="SIMUL-AFSK1200-CLASSROOM")
+    lab = sub.add_parser("lab", help="inspect the local-only integrated lab")
+    lab.add_argument("action", choices=("up", "status"))
     return parser
 
 
@@ -83,5 +109,34 @@ def main(argv: list[str] | None = None) -> int:
         result = evaluate_quality(args.directory)
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0 if result["ok"] else 3
+    if args.command == "verify":
+        result = verify(
+            args.output,
+            suite=args.suite,
+            seed=args.seed,
+            wall_clock=args.wall_clock,
+            afsk_wav=args.afsk_wav,
+            afsk_capture=args.afsk_capture,
+        )
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return 0 if result["passed"] else 4
+    if args.command == "lab":
+        print(json.dumps({
+            "status": "ready",
+            "mode": "local-in-process-SIL",
+            "network_listener": False,
+            "rf_backend": False,
+            "scenarios": list(SCENARIOS),
+        }, indent=2, sort_keys=True))
+        return 0
+    if args.command == "fixtures":
+        if args.action == "fetch-satnogs":
+            if args.observation_id is None: raise SystemExit("fetch-satnogs requires observation_id")
+            manifest = fetch_observation(args.observation_id, args.output)
+        else:
+            if args.observation_id is not None: raise SystemExit("generate-afsk does not accept observation_id")
+            manifest = generate_synthetic_fixture(args.output, args.payload.encode())
+        print(json.dumps({"kind": manifest.get("kind", "satnogs"), "observation_id": manifest.get("observation_id"), "output": str(args.output), "license": manifest.get("license", "MIT project-generated"), "files": len(manifest["files"])}, indent=2, sort_keys=True))
+        return 0
     print(json.dumps(export_report(args.directory), indent=2, sort_keys=True))
     return 0
