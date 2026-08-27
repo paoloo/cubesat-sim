@@ -4,8 +4,15 @@
 
 CubeSec-Sim is a fully offline, synthetic CubeSat communications and
 tool-orchestration simulator. It was built as a reproducible research artifact:
-it does not tune a radio, use orbital elements, contact a network endpoint, or
-identify a real spacecraft.
+it does not tune a radio, transmit RF, control a physical rotor, or contact an
+operational spacecraft. Verification is offline; only the optional fixture
+acquisition command performs read-only access to the public SatNOGS archive.
+
+Version 1.0 evolves the original link study into an integrated 3U Software-in-
+the-Loop mission model. Seven end-to-end scenarios share the same spacecraft
+state: TLE visibility, Space Packets, stateful counters, protected telemetry,
+antenna tracking, a local dashboard security lab, and passive AFSK1200 capture
+decoding. See [`docs/integrated-simulator.md`](docs/integrated-simulator.md).
 
 The artifact generates AX.25/AFSK and a bounded CCSDS-inspired/BPSK profile
 with rate-1/2, constraint-length-7 convolutional coding and hard Viterbi decoding,
@@ -23,7 +30,8 @@ policy sees IQ but not the injected channel values. See
 
 ## Quick start
 
-Python 3.11 or newer and NumPy are required.
+Python 3.11 or newer is required. Installation brings NumPy and cryptography;
+`ffmpeg` is additionally required to decode the bundled OGG recording.
 
 ```bash
 python -m venv .venv
@@ -32,7 +40,43 @@ python -m pip install -e .
 python -m unittest discover -s tests -v
 cubesec-sim init-config simulation.json
 cubesec-sim run --config simulation.json --profile quick --output artifacts/quick
+cubesec-sim lab up
+cubesec-sim verify --suite all --output artifacts/verification-001
 ```
+
+## Offline classroom commands
+
+The repository includes everything needed for repeated offline exercises.
+Use the bundled passive recording and its 29 SatNOGS reference frames:
+
+```bash
+cubesec-sim verify --suite afsk \
+  --afsk-capture fixtures/satnogs-14894580 \
+  --output artifacts/afsk-real-001
+```
+
+Generate and decode a deterministic synthetic signal entirely in memory:
+
+```bash
+cubesec-sim verify --suite afsk \
+  --output artifacts/afsk-synthetic-001
+```
+
+Materialize a reusable synthetic WAV and its hash manifest:
+
+```bash
+cubesec-sim fixtures generate-afsk \
+  --payload CLASSROOM-TEST \
+  --output /tmp/simul-generated-classroom
+
+cubesec-sim verify --suite afsk \
+  --afsk-capture /tmp/simul-generated-classroom \
+  --output artifacts/afsk-generated-001
+```
+
+Every output directory must be new; runners deliberately refuse overwrites.
+See [`docs/data-provenance.md`](docs/data-provenance.md) for the real fixture's
+attribution and satellite-origin caveat.
 
 The `smoke` profile contains one design cell and one paired replication. The
 `quick` profile has 16 cells and defaults to three replications. `controls`

@@ -1,8 +1,14 @@
 # Third-party notices and influences
 
-CubeSec-Sim has one runtime dependency, NumPy, distributed under the BSD
-3-Clause license. NumPy is installed from its normal package distribution and is
-not vendored here.
+CubeSec-Sim uses NumPy (BSD 3-Clause) and cryptography (Apache-2.0 OR BSD-3-Clause)
+as normal package dependencies; neither is vendored. The optional orbital extra
+uses sgp4 (MIT) from its normal package distribution.
+
+SatNOGS observation data acquired by the optional fixture command are licensed
+CC BY-SA 4.0. Each fixture manifest preserves the observation ID, station,
+observer, source URLs, license and checksums. Data are not bundled in the source
+distribution. `satnogs-decoders` (AGPL-3.0) and `gr-satnogs` (GPL-3.0+) are used
+as documented external references only; their source is not copied or linked.
 
 The following public projects informed design choices but no source code from
 them is copied or included:
@@ -21,4 +27,3 @@ conformance implementation.
 Before release, archive the exact upstream pages and standards consulted in the
 dissertation bibliography. Do not copy upstream test vectors unless their
 redistribution terms are recorded here.
-
